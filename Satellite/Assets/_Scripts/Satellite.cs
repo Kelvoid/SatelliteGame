@@ -25,10 +25,16 @@ public class Satellite : MonoBehaviour {
     internal float angle;
     internal float lightRange;
 
-    internal float focusedLight;
+    public float focusedLight;
 
     internal float lightIntensity;
     internal float blinkRate;
+
+    //Identifiers
+    public float idNumber;
+    public string idName;
+    public Color idColor; 
+
 
     GameManager gameManager;
     internal float distanceFromCenter;
@@ -49,7 +55,6 @@ public class Satellite : MonoBehaviour {
         satelliteTrail.endWidth = 0;
         SetColor(mainColor);
         satelliteLight.range = lightRange;
-        focusedLight = lightRange * 3;
     }
 	
     void SetColor(Color color)
@@ -71,8 +76,15 @@ public class Satellite : MonoBehaviour {
 
         lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
         satelliteLight.intensity = lightIntensity;
+        satelliteLight.range = lightRange;
 
         screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
         distanceFromCenter = Vector2.Distance(screenPos, gameManager.screenCenter);
+
+        if(distanceFromCenter < gameManager.focalRange)
+        {
+            gameManager.currentFocus = gameObject.GetComponent<Satellite>();
+            satelliteLight.range = focusedLight;
+        }
     }
 }

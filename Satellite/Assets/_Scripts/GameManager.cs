@@ -26,15 +26,24 @@ public class GameManager : MonoBehaviour
     internal Vector2 screenCenter;
 
     public float scanTime;
+    public float focusedLight;
 
-    public GameObject currentFocus;
+    public Satellite currentFocus;
+
+    public Satellite selectionOne;
+    public Satellite selectionTwo;
+
+    LinkLine linkLine;
 
     void Start ()
     {      
         Cursor.visible = false;
         screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        linkLine = FindObjectOfType<LinkLine>();
 
         currentFocus = null;
+        selectionOne = null;
+        selectionTwo = null;
 
         for (int i = 0; i < spawnNumber; i ++)
         {
@@ -51,6 +60,32 @@ public class GameManager : MonoBehaviour
 
 	void Update ()
     {
-        Debug.Log(currentFocus);
+        if(currentFocus != null && currentFocus.distanceFromCenter > focalRange)
+        {
+            currentFocus = null;
+        }
+
+        if(currentFocus != null)
+        {
+            Scanning(currentFocus);
+        }
+
+        if(selectionOne != null && selectionTwo != null)
+        {
+            linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);
+        }
+    }
+
+    public void Scanning(Satellite currentSatellite)
+    {
+        Debug.Log(currentSatellite.name);
+        if (selectionOne == null)
+        {
+            selectionOne = currentSatellite;
+        }
+        else
+        {
+            selectionTwo = currentSatellite;
+        }
     }
 }

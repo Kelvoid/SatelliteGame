@@ -73,15 +73,17 @@ public class Satellite : MonoBehaviour {
         transform.localPosition = origin.position + v * distance;
 
         satellitePosition = gameObject.transform.position;
+        
+        screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
+        if (screenPos.z < 0)  //cale tweak - stops you from selecting satalites on the other side of the world, WorldToScreenPoint is weird like that, just how projections work
+            return;
 
-        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
+        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);  //cale tweak - moved this below, no point in exicuting the code if object is on other side of world
         satelliteLight.intensity = lightIntensity;
         satelliteLight.range = lightRange;
 
-        screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
         distanceFromCenter = Vector2.Distance(screenPos, gameManager.screenCenter);
-
-        if(distanceFromCenter < gameManager.focalRange)
+        if (distanceFromCenter < gameManager.focalRange)    //cale adv - you need to add a check in here to make sure that you are also closer than the currently focused object (is there even is one)
         {
             gameManager.currentFocus = gameObject.GetComponent<Satellite>();
             satelliteLight.range = focusedLight;

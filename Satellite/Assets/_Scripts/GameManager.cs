@@ -69,21 +69,24 @@ public class GameManager : MonoBehaviour
         {
             Scanning(currentFocus);
         }
-
-        if(selectionOne != null && selectionTwo != null)
+        //cale tweak - added a more indepth debug
+        Debug.Log("Current:" + (currentFocus==null?"null":currentFocus.name)+
+                    " - SelectionOne:" + (selectionOne == null ? "null" : selectionOne.name) +
+                    " - SelectionTwo:" + (selectionTwo == null ? "null" : selectionTwo.name));
+        if (selectionOne != null && selectionTwo != null)
         {
-            linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);
+            linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
         }
     }
 
     public void Scanning(Satellite currentSatellite)
     {
-        Debug.Log(currentSatellite.name);
+        
         if (selectionOne == null)
         {
             selectionOne = currentSatellite;
         }
-        else
+        else if(currentSatellite != selectionOne)   //cale tweak - made sure that the current selection doesn't become both selection one and two
         {
             selectionTwo = currentSatellite;
         }

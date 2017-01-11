@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     public Satellite satellite;
+    public LinkLine linkLine;
 
     public int spawnNumber;
 
@@ -33,13 +34,13 @@ public class GameManager : MonoBehaviour
     public Satellite selectionOne;
     public Satellite selectionTwo;
 
-    LinkLine linkLine;
+
 
     void Start ()
     {      
         Cursor.visible = false;
         screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-        linkLine = FindObjectOfType<LinkLine>();
+        //linkLine = FindObjectOfType<LinkLine>();
 
         currentFocus = null;
         selectionOne = null;
@@ -75,7 +76,8 @@ public class GameManager : MonoBehaviour
                     " - SelectionTwo:" + (selectionTwo == null ? "null" : selectionTwo.name));
         if (selectionOne != null && selectionTwo != null)
         {
-            linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
+            //Instantiate<LinkLine>(linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position));
+            //linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
         }
     }
 

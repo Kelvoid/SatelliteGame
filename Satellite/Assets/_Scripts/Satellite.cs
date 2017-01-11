@@ -87,6 +87,7 @@ public class Satellite : MonoBehaviour {
         {
             gameManager.currentFocus = gameObject.GetComponent<Satellite>();
             satelliteLight.range = focusedLight;
+            speed = 0;
         }
     }
 }

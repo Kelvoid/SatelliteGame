@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 20842d715d4f2424887932a5b049a62d
-timeCreated: 1483295567
+guid: 12f4e24b37966364f8a6cf8ce4f3a2ba
+timeCreated: 1483918687
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: GeoSphere001
-    9500000: //RootNode
+    4300000: Object029
   materials:
     importMaterials: 1
     materialName: 0
@@ -52,7 +51,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0
@@ -73,7 +72,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

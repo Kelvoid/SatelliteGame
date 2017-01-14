@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 9ac59bd4901341347bb2de0825e6571b
+timeCreated: 1484199352
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Freeroad Black
+  fontNames:
+  - Freeroad Black
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 985da92893ae100408a3a1bf6594d484, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

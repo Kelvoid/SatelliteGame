@@ -30,11 +30,11 @@ public class Satellite : MonoBehaviour {
     internal float lightIntensity;
     internal float blinkRate;
 
+    bool isConnected;
+
     //Identifiers
     public float idNumber;
     public string idName;
-    public Color idColor; 
-
 
     GameManager gameManager;
     internal float distanceFromCenter;
@@ -87,7 +87,6 @@ public class Satellite : MonoBehaviour {
         {
             gameManager.currentFocus = gameObject.GetComponent<Satellite>();
             satelliteLight.range = focusedLight;
-            speed = 0;
         }
     }
 }

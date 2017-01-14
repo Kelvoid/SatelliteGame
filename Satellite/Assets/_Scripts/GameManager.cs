@@ -34,12 +34,15 @@ public class GameManager : MonoBehaviour
     public Satellite selectionOne;
     public Satellite selectionTwo;
 
+    public CameraMovement cameraMovement;
 
+    public Vector3 targetPosition;
 
     void Start ()
     {      
         Cursor.visible = false;
         screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        cameraMovement = mainCamera.GetComponent<CameraMovement>();
         //linkLine = FindObjectOfType<LinkLine>();
 
         currentFocus = null;
@@ -61,14 +64,16 @@ public class GameManager : MonoBehaviour
 
 	void Update ()
     {
-        if(currentFocus != null && currentFocus.distanceFromCenter > focalRange)
+        if (currentFocus != null && currentFocus.distanceFromCenter > focalRange)
         {
             currentFocus = null;
+            cameraMovement.targetPos = transform.position;
         }
 
         if(currentFocus != null)
         {
-            Scanning(currentFocus);
+            cameraMovement.targetPos = currentFocus.transform.position;
+            targetPosition = currentFocus.transform.position;
         }
         //cale tweak - added a more indepth debug
         Debug.Log("Current:" + (currentFocus==null?"null":currentFocus.name)+
@@ -79,18 +84,7 @@ public class GameManager : MonoBehaviour
             //Instantiate<LinkLine>(linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position));
             //linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
         }
-    }
 
-    public void Scanning(Satellite currentSatellite)
-    {
         
-        if (selectionOne == null)
-        {
-            selectionOne = currentSatellite;
-        }
-        else if(currentSatellite != selectionOne)   //cale tweak - made sure that the current selection doesn't become both selection one and two
-        {
-            selectionTwo = currentSatellite;
-        }
     }
 }

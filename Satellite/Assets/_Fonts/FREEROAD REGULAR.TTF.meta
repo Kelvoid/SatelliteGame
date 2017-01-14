@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 9887fc57b4f701043bd8e27e02c037aa
+timeCreated: 1484199352
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Freeroad
+  fontNames:
+  - Freeroad
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 3fbb02532750e96489fe71cd8ee4f352, type: 3}
+  - {fileID: 12800000, guid: 4642fa5391dd1024595429fe44eed736, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: bd99fafe594236c4ea962f9305ca653b
+timeCreated: 1484199352
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Freeroad Light
+  fontNames:
+  - Freeroad Light
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

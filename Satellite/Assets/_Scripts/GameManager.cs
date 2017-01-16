@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
 
     void Start ()
     {      
-        Cursor.visible = false;
+        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         cameraMovement = mainCamera.GetComponent<CameraMovement>();
         //linkLine = FindObjectOfType<LinkLine>();
@@ -67,13 +68,13 @@ public class GameManager : MonoBehaviour
         if (currentFocus != null && currentFocus.distanceFromCenter > focalRange)
         {
             currentFocus = null;
-            cameraMovement.targetPos = transform.position;
+            //cameraMovement.targetPos = transform.position;
         }
 
         if(currentFocus != null)
         {
             cameraMovement.targetPos = currentFocus.transform.position;
-            targetPosition = currentFocus.transform.position;
+            //targetPosition = currentFocus.transform.position;
         }
         //cale tweak - added a more indepth debug
         Debug.Log("Current:" + (currentFocus==null?"null":currentFocus.name)+
@@ -83,8 +84,11 @@ public class GameManager : MonoBehaviour
         {
             //Instantiate<LinkLine>(linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position));
             //linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
-        }
+        }       
+    }
 
-        
+    void StateManager()
+    {
+
     }
 }

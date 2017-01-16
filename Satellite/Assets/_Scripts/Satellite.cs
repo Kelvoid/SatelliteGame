@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TrailRenderer))]
+[RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(Light))]
 
 public class Satellite : MonoBehaviour {
@@ -10,6 +11,8 @@ public class Satellite : MonoBehaviour {
     public Color[] satelliteColors;
     Color mainColor;
 
+    GameManager gameManager;
+    MeshRenderer satelliteMesh;
     TrailRenderer satelliteTrail;
     Light satelliteLight;
 
@@ -30,13 +33,11 @@ public class Satellite : MonoBehaviour {
     internal float lightIntensity;
     internal float blinkRate;
 
-    bool isConnected;
-
     //Identifiers
     public float idNumber;
     public string idName;
 
-    GameManager gameManager;
+
     internal float distanceFromCenter;
 
     void Awake ()
@@ -47,6 +48,7 @@ public class Satellite : MonoBehaviour {
         satelliteTrail = gameObject.GetComponent<TrailRenderer>();
         satelliteLight = gameObject.GetComponent<Light>();
         gameManager = FindObjectOfType<GameManager>();
+        satelliteMesh = FindObjectOfType<MeshRenderer>();
     }
 
     void Start()

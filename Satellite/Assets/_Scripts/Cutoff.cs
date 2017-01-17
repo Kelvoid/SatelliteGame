@@ -11,7 +11,7 @@ public class Cutoff : MonoBehaviour
     public float speed;
 
     [Range(0,1)]
-    float target;
+    public float target;
 
     string shaderValue = "_Cutoff";
 
@@ -26,7 +26,7 @@ public class Cutoff : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             StopAllCoroutines();
-            StartCoroutine(ChangeCutoff(speed, 1));
+            StartCoroutine(ChangeCutoff(speed, target));
         }
     }
 

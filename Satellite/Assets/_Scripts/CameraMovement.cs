@@ -12,6 +12,9 @@ public class CameraMovement : MonoBehaviour {
 
     public float travelTime;
 
+    public bool isTraveling;
+    bool isLocked;
+
     internal GameManager gameManager;
 
     void Start()
@@ -26,6 +29,11 @@ public class CameraMovement : MonoBehaviour {
         {
             targetPos = gameManager.currentFocus.transform.position;
             StartCoroutine(TravelToLocation(targetPos, travelTime));
+        }
+
+        if(isLocked == true)
+        {
+                   
         }
 	}
 

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-    internal GameManager gameManager;
+    public GameManager gameManager;
 
     int screenWidth;
     int screenHeight;
 
-    Vector3 screenCenter;
+    public GameObject reticle;
+
     Vector3 mousePosition;
     Camera mainCamera;
 
@@ -17,23 +18,24 @@ public class InputManager : MonoBehaviour {
     {
         screenWidth = Screen.width;
         screenHeight = Screen.height;
-        if (gameManager == null)
-        {
-            gameManager = GetComponent<GameManager>();
-        }
 
-        if (mainCamera == null)
-        {
-            mainCamera = GetComponent<Camera>();
-        }
-        screenCenter = new Vector3(screenWidth * 0.5f, screenHeight * 0.5f, 0);
-    }
+        gameManager = GetComponent<GameManager>();
+        mainCamera = GetComponent<Camera>();
+	}
 	
 	void Update ()
     {
+        mousePosition = Input.mousePosition;
+        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
+        Vector3 cameraTarget = new Vector3 (ray.direction.x,ray.direction.y,ray.direction.z);
+        Vector3 cameraRot = transform.rotation.eulerAngles;
+
+        gameObject.transform.LookAt(cameraTarget);
+        
+
         if (Input.GetMouseButtonDown(0))
         {
-            Interact();
+            Debug.Log("Left Click");
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -41,14 +43,4 @@ public class InputManager : MonoBehaviour {
             Debug.Log("Right Click");
         }
 	}
-
-    void Interact()
-    {
-
-    }
-
-    void Backout()
-    {
-
-    }
 }

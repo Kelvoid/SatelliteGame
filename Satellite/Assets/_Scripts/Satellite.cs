@@ -12,6 +12,7 @@ public class Satellite : MonoBehaviour {
     Color mainColor;
 
     GameManager gameManager;
+    MeshRenderer satelliteMesh;
     TrailRenderer satelliteTrail;
     Light satelliteLight;
 
@@ -32,10 +33,12 @@ public class Satellite : MonoBehaviour {
     internal float lightIntensity;
     internal float blinkRate;
 
-    internal float distanceFromCenter;
-
     //Identifiers
-    public string manufacturer;
+    public float idNumber;
+    public string idName;
+
+
+    internal float distanceFromCenter;
 
     void Awake ()
     {
@@ -45,6 +48,7 @@ public class Satellite : MonoBehaviour {
         satelliteTrail = gameObject.GetComponent<TrailRenderer>();
         satelliteLight = gameObject.GetComponent<Light>();
         gameManager = FindObjectOfType<GameManager>();
+        satelliteMesh = FindObjectOfType<MeshRenderer>();
     }
 
     void Start()

@@ -7,7 +7,6 @@ using UnityEngine;
 public class StarController : MonoBehaviour {
 
     ParticleSystem stars;
-    
 
 	void Start ()
     {
@@ -23,4 +22,10 @@ public class StarController : MonoBehaviour {
             starsNoise.enabled = !starsNoise.enabled;
         }
 	}
+
+    public void ToggleTrails()
+    {
+        var starsTrails = stars.trails;
+        starsTrails.enabled = !starsTrails.enabled;
+    }
 }

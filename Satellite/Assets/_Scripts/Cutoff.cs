@@ -44,5 +44,4 @@ public class Cutoff : MonoBehaviour
         material.SetFloat(shaderValue, target);
         yield return null;
     }
-
 }

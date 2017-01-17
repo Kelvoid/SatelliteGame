@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class TitleScreen : MonoBehaviour
     public Camera mainCamera;
     public GameObject backgroundSat;
 
+    public GameObject overlay;
+
 	void Start ()
     {
         setBackgroundColor(backgroundColor);
@@ -18,10 +21,7 @@ public class TitleScreen : MonoBehaviour
 	
 	void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartGame();
-        }
+
 	}
 
     void setBackgroundColor(Color c)

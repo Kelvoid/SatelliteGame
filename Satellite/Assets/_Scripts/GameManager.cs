@@ -6,11 +6,14 @@ public class GameManager : MonoBehaviour
 {
 
     public Satellite satellite;
+    public Satellite currentFocus;
     public LinkLine linkLine;
+    public Transform origin;
+    public Camera mainCamera;
+    public CameraMovement cameraMovement;
+    public StateManager stateManager;
 
     public int spawnNumber;
-
-    public Transform origin;
 
     public float maxSatelliteSpeed;
     public float minSatelliteSpeed;
@@ -22,33 +25,25 @@ public class GameManager : MonoBehaviour
     public float maxBlinkRate;
     public float minBlinkRate;
 
-    public Camera mainCamera;
+
     public float focalRange;
     internal Vector2 screenCenter;
 
     public float scanTime;
     public float focusedLight;
-
-    public Satellite currentFocus;
-
-    public Satellite selectionOne;
-    public Satellite selectionTwo;
-
-    public CameraMovement cameraMovement;
-
     public Vector3 targetPosition;
 
-    void Start ()
-    {      
-        //Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
-        screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+    void Awake()
+    {
         cameraMovement = mainCamera.GetComponent<CameraMovement>();
-        //linkLine = FindObjectOfType<LinkLine>();
+        stateManager = GetComponent<StateManager>();
+    }
 
+    void Start ()
+    {
+        stateManager.isHome = true;
+        screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         currentFocus = null;
-        selectionOne = null;
-        selectionTwo = null;
 
         for (int i = 0; i < spawnNumber; i ++)
         {
@@ -68,27 +63,11 @@ public class GameManager : MonoBehaviour
         if (currentFocus != null && currentFocus.distanceFromCenter > focalRange)
         {
             currentFocus = null;
-            //cameraMovement.targetPos = transform.position;
         }
 
         if(currentFocus != null)
         {
             cameraMovement.targetPos = currentFocus.transform.position;
-            //targetPosition = currentFocus.transform.position;
         }
-        //cale tweak - added a more indepth debug
-        Debug.Log("Current:" + (currentFocus==null?"null":currentFocus.name)+
-                    " - SelectionOne:" + (selectionOne == null ? "null" : selectionOne.name) +
-                    " - SelectionTwo:" + (selectionTwo == null ? "null" : selectionTwo.name));
-        if (selectionOne != null && selectionTwo != null)
-        {
-            //Instantiate<LinkLine>(linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position));
-            //linkLine.setPoints(selectionOne.transform.position, selectionTwo.transform.position);//cale adv - you should spawn a new line here provided the two satalites dont already have one connecting them~
-        }       
-    }
-
-    void StateManager()
-    {
-
     }
 }

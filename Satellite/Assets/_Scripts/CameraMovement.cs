@@ -3,39 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
+    internal GameManager gameManager;
+    internal StateManager stateManager;
+    public StarController stars;
 
-    Vector3 startPos;
+    internal Vector3 startPos;
     internal Vector3 targetPos;
-    Vector3 defaultPos;
+    internal Vector3 homePos;
 
     public Vector3 offset;
 
     public float travelTime;
-
-    public bool isTraveling;
-    bool isLocked;
-
-    internal GameManager gameManager;
+    void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+        stateManager = FindObjectOfType<StateManager>();
+    }
 
     void Start()
     {
         targetPos = transform.position;
-        gameManager = FindObjectOfType<GameManager>();      
+        homePos = new Vector3(0, 0, 0);             
     }
 
-	void Update ()
-    {  
-        if (Input.GetMouseButtonDown(0) && gameManager.currentFocus != null)
-        {
-            targetPos = gameManager.currentFocus.transform.position;
-            StartCoroutine(TravelToLocation(targetPos, travelTime));
-        }
+    public void TravelToTarget()
+    {
+        StopAllCoroutines();
+        targetPos = gameManager.currentFocus.transform.position;
+        StartCoroutine(TravelToLocation(targetPos, travelTime));
+    }
 
-        if(isLocked == true)
-        {
-                   
-        }
-	}
+    public void TravelHome()
+    {
+        StopAllCoroutines();
+        StartCoroutine(TravelToLocation(homePos, travelTime));
+    }
 
     public IEnumerator TravelToLocation(Vector3 target, float seconds)
     {
@@ -48,7 +50,6 @@ public class CameraMovement : MonoBehaviour {
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();         
         }
-    }
-
-    
+        stateManager.isTravelling = false;
+    }   
 }

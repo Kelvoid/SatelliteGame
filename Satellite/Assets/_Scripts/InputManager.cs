@@ -5,42 +5,42 @@ using UnityEngine;
 public class InputManager : MonoBehaviour {
 
     public GameManager gameManager;
+    public StateManager stateManager;
+    public CameraMovement cameraMovement;
+    public Cutoff cutoff;
 
     int screenWidth;
     int screenHeight;
 
-    public GameObject reticle;
-
     Vector3 mousePosition;
-    Camera mainCamera;
+
+    Input leftClick;
+    Input rightClick;
 
     void Start ()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        stateManager = FindObjectOfType<StateManager>();
+        cameraMovement = GetComponent<CameraMovement>();
+        cutoff = FindObjectOfType<Cutoff>();
+
         screenWidth = Screen.width;
         screenHeight = Screen.height;
-
-        gameManager = GetComponent<GameManager>();
-        mainCamera = GetComponent<Camera>();
 	}
-	
-	void Update ()
+
+    void Update()
     {
-        mousePosition = Input.mousePosition;
-        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-        Vector3 cameraTarget = new Vector3 (ray.direction.x,ray.direction.y,ray.direction.z);
-        Vector3 cameraRot = transform.rotation.eulerAngles;
-
-        gameObject.transform.LookAt(cameraTarget);
-        
-
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Left Click");
+            if (gameManager.currentFocus != null)
+            {
+                cameraMovement.TravelToTarget();
+            }
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("Right Click");
+            cameraMovement.TravelHome();
         }
-	}
+    }
 }

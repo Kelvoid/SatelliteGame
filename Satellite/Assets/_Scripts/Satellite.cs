@@ -8,15 +8,17 @@ using UnityEngine;
 
 public class Satellite : MonoBehaviour {
 
-    public Color[] satelliteColors;
+    public Color satelliteColor;
     Color mainColor;
 
     GameManager gameManager;
     MeshRenderer satelliteMesh;
     TrailRenderer satelliteTrail;
     Light satelliteLight;
+    Camera mainCamera;
 
     Material material;
+    public Material satelliteMeshMaterial;
 
     Vector3 satellitePosition;
     Vector3 screenPos;
@@ -28,6 +30,10 @@ public class Satellite : MonoBehaviour {
     internal float angle;
     internal float lightRange;
 
+    internal Vector3 cameraPosition;
+    public float meshRenderDistance;
+    internal float cameraDistance;
+
     public float focusedLight;
 
     internal float lightIntensity;
@@ -35,20 +41,19 @@ public class Satellite : MonoBehaviour {
 
     //Identifiers
     public float idNumber;
-    public string idName;
-
+    public string manufacturer;
 
     internal float distanceFromCenter;
 
     void Awake ()
     {
-        int randomColor = (Random.Range(0, satelliteColors.Length));
-        mainColor = satelliteColors[randomColor];
+        mainColor = satelliteColor;
 
         satelliteTrail = gameObject.GetComponent<TrailRenderer>();
         satelliteLight = gameObject.GetComponent<Light>();
         gameManager = FindObjectOfType<GameManager>();
         satelliteMesh = FindObjectOfType<MeshRenderer>();
+        mainCamera = FindObjectOfType<Camera>();
     }
 
     void Start()
@@ -57,6 +62,8 @@ public class Satellite : MonoBehaviour {
         satelliteTrail.endWidth = 0;
         SetColor(mainColor);
         satelliteLight.range = lightRange;
+        satelliteMesh.enabled = false;
+        satelliteMesh.material = satelliteMeshMaterial;
     }
 	
     void SetColor(Color color)
@@ -68,15 +75,24 @@ public class Satellite : MonoBehaviour {
 
     void Update()
     {
+        cameraDistance = Vector3.Distance(gameObject.transform.position, mainCamera.transform.position);
         angle += speed * Time.deltaTime;
         Vector3 v = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
         transform.localPosition = Vector3.zero;
         v = transform.TransformPoint(v).normalized;
         transform.localPosition = origin.position + v * distance;
-
-        satellitePosition = gameObject.transform.position;
-        
+        satellitePosition = gameObject.transform.position;        
         screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
+
+        if(cameraDistance < meshRenderDistance)
+        {
+            satelliteMesh.enabled = true;
+        }
+        else
+        {
+            satelliteMesh.enabled = false;
+        }
+
         if (screenPos.z < 0)  //cale tweak - stops you from selecting satalites on the other side of the world, WorldToScreenPoint is weird like that, just how projections work
             return;
 

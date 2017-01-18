@@ -8,10 +8,6 @@ public class Cutoff : MonoBehaviour
     float alphaCutoff;
     Material material;
     float alpha;
-    public float speed;
-
-    [Range(0,1)]
-    public float target;
 
     string shaderValue = "_Cutoff";
 
@@ -21,13 +17,10 @@ public class Cutoff : MonoBehaviour
         //StartCoroutine(ChangeCutoff(speed, target));
     }
 
-	void Update ()
+    public void LerpCutoffTo(float speed, float target)
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            StopAllCoroutines();
-            StartCoroutine(ChangeCutoff(speed, target));
-        }
+        StopAllCoroutines();
+        StartCoroutine(ChangeCutoff(speed, target));
     }
 
     IEnumerator ChangeCutoff(float duration, float target)

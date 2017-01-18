@@ -32,15 +32,22 @@ public class InputManager : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
+            cutoff.LerpCutoffTo(1f, 1f);
+
             if (gameManager.currentFocus != null)
             {
-                cameraMovement.TravelToTarget();
+                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.9f);
             }
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            cameraMovement.TravelHome();
+            if (stateManager.isHome)
+            {
+                cutoff.LerpCutoffTo(1f, 0f);
+            }
+
+            cameraMovement.StartLerping(cameraMovement.homePos, 1f);
         }
     }
 }

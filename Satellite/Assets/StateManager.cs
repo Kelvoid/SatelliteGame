@@ -27,6 +27,11 @@ public class StateManager : MonoBehaviour
         if (gameManager.mainCamera.transform.position == new Vector3(0, 0, 0))
         {
             Debug.Log("Player Is Home");
+            isHome = true;
+        }
+        else
+        {
+            isHome = false;
         }
         stateDebug();
     }

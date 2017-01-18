@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
+
     internal GameManager gameManager;
     internal StateManager stateManager;
     public StarController stars;
+
+    public GameObject home;
+
+    public float travelTime;
+    [Range (0.0f, 1.0f)]
+    public float percentageOfDistance;
+    bool isLerping;
+    private float timeStartedLerping;
 
     internal Vector3 startPos;
     internal Vector3 targetPos;
     internal Vector3 homePos;
 
-    public Vector3 offset;
-
-    public float travelTime;
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -23,33 +29,35 @@ public class CameraMovement : MonoBehaviour {
     void Start()
     {
         targetPos = transform.position;
-        homePos = new Vector3(0, 0, 0);             
+        homePos = home.transform.position;
     }
 
-    public void TravelToTarget()
+    void FixedUpdate()
     {
-        StopAllCoroutines();
-        targetPos = gameManager.currentFocus.transform.position;
-        StartCoroutine(TravelToLocation(targetPos, travelTime));
-    }
-
-    public void TravelHome()
-    {
-        StopAllCoroutines();
-        StartCoroutine(TravelToLocation(homePos, travelTime));
-    }
-
-    public IEnumerator TravelToLocation(Vector3 target, float seconds)
-    {
-        float elapsedTime = 0;
-        Vector3 startingPos = transform.position;
-        while(elapsedTime < seconds)
+        if (isLerping)
         {
-            transform.LookAt(target);
-            transform.position = Vector3.Lerp(startingPos, target - offset, (elapsedTime / seconds));
-            elapsedTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();         
+            float timeSinceStarted = Time.time - timeStartedLerping;
+            float percentageComplete = timeSinceStarted / travelTime;
+
+            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.Pow(percentageComplete, 0.5f));
+
+            if (percentageComplete >= percentageOfDistance)
+            {
+                isLerping = false;
+            }
         }
-        stateManager.isTravelling = false;
-    }   
+    }
+
+    public void StartLerping(Vector3 target, float percentage)
+    {
+        if(isLerping == false)
+        {
+            isLerping = true;
+            percentageOfDistance = percentage;
+            timeStartedLerping = Time.time;
+            startPos = transform.position;
+            targetPos = target;
+        }
+    }
+
 }

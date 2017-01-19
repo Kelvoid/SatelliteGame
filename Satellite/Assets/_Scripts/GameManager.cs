@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
         if(currentFocus != null)
         {
-            cameraMovement.targetPos = currentFocus.transform.position;
+            //cameraMovement.targetPos = currentFocus.transform.position;
         }
     }
 }

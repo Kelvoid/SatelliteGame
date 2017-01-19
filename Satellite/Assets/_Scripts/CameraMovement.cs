@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
     public float travelTime;
     [Range (0.0f, 1.0f)]
     public float percentageOfDistance;
-    bool isLerping;
+    bool isLerping = false;
     private float timeStartedLerping;
 
     internal Vector3 startPos;
@@ -59,5 +59,4 @@ public class CameraMovement : MonoBehaviour {
             targetPos = target;
         }
     }
-
 }

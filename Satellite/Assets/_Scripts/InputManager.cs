@@ -9,9 +9,6 @@ public class InputManager : MonoBehaviour {
     public CameraMovement cameraMovement;
     public Cutoff cutoff;
 
-    int screenWidth;
-    int screenHeight;
-
     Vector3 mousePosition;
 
     Input leftClick;
@@ -23,20 +20,20 @@ public class InputManager : MonoBehaviour {
         stateManager = FindObjectOfType<StateManager>();
         cameraMovement = GetComponent<CameraMovement>();
         cutoff = FindObjectOfType<Cutoff>();
-
-        screenWidth = Screen.width;
-        screenHeight = Screen.height;
 	}
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            cutoff.LerpCutoffTo(1f, 1f);
-
-            if (gameManager.currentFocus != null)
+            if (stateManager.shellUp == true && stateManager.isHome)
             {
-                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.9f);
+                cutoff.StartLerpingCutoff(Mathf.Clamp01(1f), Mathf.Clamp01(1f), 3f);
+            }
+
+            else if (stateManager.shellUp == false && gameManager.currentFocus != null)
+            {
+                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.95f);
             }
         }
 
@@ -44,10 +41,12 @@ public class InputManager : MonoBehaviour {
         {
             if (stateManager.isHome)
             {
-                cutoff.LerpCutoffTo(1f, 0f);
+                cutoff.StartLerpingCutoff(Mathf.Clamp01(0f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
             }
-
-            cameraMovement.StartLerping(cameraMovement.homePos, 1f);
+            else
+            {
+                cameraMovement.StartLerping(cameraMovement.homePos, 1f);
+            }
         }
     }
 }

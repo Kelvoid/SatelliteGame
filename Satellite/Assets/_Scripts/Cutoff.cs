@@ -7,22 +7,70 @@ public class Cutoff : MonoBehaviour
 
     float alphaCutoff;
     Material material;
+    StateManager stateManager;
     float alpha;
+
+    private bool isLerping = false;
+    private float timeStartedLerping;
+    private float percentageOfCutoff;
+    internal float cutoffTime;
+
+    internal float startValue;
+    internal float targetValue;
 
     string shaderValue = "_Cutoff";
 
     void Start ()
     {
         material = gameObject.GetComponent<Renderer>().material;
-        //StartCoroutine(ChangeCutoff(speed, target));
+        stateManager = FindObjectOfType<StateManager>();
     }
 
-    public void LerpCutoffTo(float speed, float target)
+    void FixedUpdate()
     {
-        StopAllCoroutines();
-        StartCoroutine(ChangeCutoff(speed, target));
+        if (isLerping)
+        {
+            float timeSinceStarted = Time.time - timeStartedLerping;
+            float percentageComplete = timeSinceStarted / cutoffTime;
+
+            float currentPercentage = Mathf.Lerp(startValue, targetValue, percentageComplete);
+
+            material.SetFloat(shaderValue, currentPercentage);
+
+            if (percentageComplete >= percentageOfCutoff)
+            {
+                Debug.Log("Done Lerping");
+                isLerping = false;
+            }
+
+            if (material.GetFloat(shaderValue) <= 0.8)
+            {
+                Debug.Log("Shell Up");
+                stateManager.shellUp = true;
+            }
+            else if (material.GetFloat(shaderValue) > 0.8f)
+            {
+                Debug.Log("Shell Down");
+                stateManager.shellUp = false;
+            }
+        }
     }
 
+    public void StartLerpingCutoff(float target, float percentage, float duration)
+    {
+        if(isLerping == false)
+        {
+            Debug.Log("Began Lerping");
+            isLerping = true;
+            percentageOfCutoff = percentage;
+            cutoffTime = duration;
+            timeStartedLerping = Time.time;
+            startValue = material.GetFloat(shaderValue);
+            targetValue = target;
+        }
+    }
+
+    /*
     IEnumerator ChangeCutoff(float duration, float target)
     {
         float elapsed = 0;
@@ -37,4 +85,5 @@ public class Cutoff : MonoBehaviour
         material.SetFloat(shaderValue, target);
         yield return null;
     }
+    */
 }

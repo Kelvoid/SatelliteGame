@@ -34,6 +34,5 @@
 	}
 	ENDCG
 	}
-
 		Fallback "Transparent/VertexLit"
 }

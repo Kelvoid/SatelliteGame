@@ -5,7 +5,9 @@ using UnityEngine;
 public class StateManager : MonoBehaviour
 {
     GameManager gameManager;
+    Cutoff cutoff;
     internal bool isHome;
+    internal bool shellUp;
     internal bool isTravelling;
     internal bool isOrbiting;
 
@@ -16,17 +18,16 @@ public class StateManager : MonoBehaviour
 
 	void Start ()
     {
+        shellUp = true;
         isHome = false;
         isTravelling = false;
         isOrbiting = false;
-    }
-	
+    }	
 
 	void Update ()
     {
         if (gameManager.mainCamera.transform.position == new Vector3(0, 0, 0))
         {
-            Debug.Log("Player Is Home");
             isHome = true;
         }
         else

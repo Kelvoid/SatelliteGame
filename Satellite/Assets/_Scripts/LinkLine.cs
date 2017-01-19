@@ -7,14 +7,26 @@ using UnityEngine;
 public class LinkLine : MonoBehaviour
 {
     LineRenderer line;
+    GameManager gameManager;
 
-    public Vector3 posOne;
-    public Vector3 posTwo;
+    public GameObject targetOne;
+    public GameObject targetTwo;
+
+    Vector3 posOne;
+    Vector3 posTwo;
 
 	void Start ()
     {
         line = GetComponent<LineRenderer>();
-	}
+        gameManager = FindObjectOfType<GameManager>();
+    }
+
+    void Update()
+    {
+        posOne = gameManager.mainCamera.WorldToScreenPoint(targetOne.transform.position);
+        posTwo = gameManager.mainCamera.WorldToScreenPoint(targetTwo.transform.position);
+        setPoints(posOne, posTwo);
+    }
 
 	public void setPoints (Vector3 pointOne, Vector3 pointTwo)
     {

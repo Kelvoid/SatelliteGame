@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour {
 
     void Start ()
     {
+        Cursor.visible = false;
         gameManager = FindObjectOfType<GameManager>();
         stateManager = FindObjectOfType<StateManager>();
         cameraMovement = GetComponent<CameraMovement>();
@@ -28,12 +29,12 @@ public class InputManager : MonoBehaviour {
         {
             if (stateManager.shellUp == true && stateManager.isHome)
             {
-                cutoff.StartLerpingCutoff(Mathf.Clamp01(1f), Mathf.Clamp01(1f), 3f);
+                cutoff.StartLerpingCutoff(Mathf.Clamp01(1f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
             }
 
             else if (stateManager.shellUp == false && gameManager.currentFocus != null)
             {
-                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.95f);
+                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.85f);
             }
         }
 

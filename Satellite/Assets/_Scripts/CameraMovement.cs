@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
     public float travelTime;
     [Range (0.0f, 1.0f)]
     public float percentageOfDistance;
-    bool isLerping = false;
+    public bool isLerping = false;
     private float timeStartedLerping;
 
     internal Vector3 startPos;
@@ -39,7 +39,7 @@ public class CameraMovement : MonoBehaviour {
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = timeSinceStarted / travelTime;
 
-            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.Pow(percentageComplete, 0.5f));
+            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.Pow(percentageComplete, 0.1f));
 
             if (percentageComplete >= percentageOfDistance)
             {

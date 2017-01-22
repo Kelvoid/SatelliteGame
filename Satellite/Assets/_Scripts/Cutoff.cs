@@ -69,21 +69,4 @@ public class Cutoff : MonoBehaviour
             targetValue = target;
         }
     }
-
-    /*
-    IEnumerator ChangeCutoff(float duration, float target)
-    {
-        float elapsed = 0;
-        float start = material.GetFloat(shaderValue);
-        while (elapsed < duration)
-        {
-            var range = target - start;
-            elapsed = Mathf.MoveTowards(elapsed, duration, Time.deltaTime);
-            material.SetFloat(shaderValue, (start + range * (elapsed / duration)));
-            yield return 0;
-        }
-        material.SetFloat(shaderValue, target);
-        yield return null;
-    }
-    */
 }

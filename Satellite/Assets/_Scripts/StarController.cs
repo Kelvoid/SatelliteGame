@@ -6,16 +6,32 @@ using UnityEngine;
 
 public class StarController : MonoBehaviour {
 
+
+    //static GameManager gameManager = FindObjectOfType<GameManager>();
     ParticleSystem stars;
+    public Camera mainCamera;
+    CameraMovement cameraMovement;
 
 	void Start ()
     {
         stars = gameObject.GetComponent<ParticleSystem>();
+        cameraMovement = FindObjectOfType<CameraMovement>();
     }
 	
-	// Update is called once per frame
 	void Update ()
     {
+        var starTrails = stars.trails;
+
+        if (cameraMovement.isLerping == true)
+        {
+            gameObject.transform.position = mainCamera.transform.position;           
+            starTrails.enabled = true;
+        }
+        else
+        {
+            starTrails.enabled = false;       
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             var starsNoise = stars.noise;

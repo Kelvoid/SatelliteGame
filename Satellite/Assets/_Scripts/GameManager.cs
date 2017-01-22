@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     void Start ()
     {
-        Cursor.visible = false;
         stateManager.isHome = true;
         screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         currentFocus = null;

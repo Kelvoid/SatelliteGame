@@ -11,16 +11,16 @@ public class CameraMovement : MonoBehaviour {
     public GameObject home;
 
     public float travelTime;
-    [Range (0.0f, 1.0f)]
-    public float percentageOfDistance;
+    internal float offset;
     public bool isLerping = false;
     private float timeStartedLerping;
 
     internal Vector3 startPos;
     internal Vector3 targetPos;
     internal Vector3 homePos;
+    internal float distanceFromTarget;
 
-    void Awake()
+void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         stateManager = FindObjectOfType<StateManager>();
@@ -34,26 +34,27 @@ public class CameraMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
+
+        distanceFromTarget = Vector3.Distance(gameObject.transform.position, targetPos);
+
         if (isLerping)
         {
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = timeSinceStarted / travelTime;
-
-            transform.position = Vector3.Lerp(startPos, targetPos, Mathf.Pow(percentageComplete, 0.1f));
-
-            if (percentageComplete >= percentageOfDistance)
+            transform.position = Vector3.Lerp(startPos, targetPos, percentageComplete);
+            if (distanceFromTarget <= offset)
             {
                 isLerping = false;
             }
         }
     }
 
-    public void StartLerping(Vector3 target, float percentage)
+    public void StartLerping(Vector3 target, float o)
     {
         if(isLerping == false)
         {
             isLerping = true;
-            percentageOfDistance = percentage;
+            offset = o;
             timeStartedLerping = Time.time;
             startPos = transform.position;
             targetPos = target;

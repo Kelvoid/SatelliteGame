@@ -20,7 +20,7 @@ public class Satellite : MonoBehaviour {
     Material material;
     public Material satelliteMeshMaterial;
 
-    Vector3 satellitePosition;
+    public Vector3 satellitePosition;
     Vector3 screenPos;
 
     internal Transform origin;
@@ -58,12 +58,12 @@ public class Satellite : MonoBehaviour {
 
     void Start()
     {
-        transform.Rotate(Random.onUnitSphere * 360);
         satelliteTrail.endWidth = 0;
         SetColor(mainColor);
         satelliteLight.range = lightRange;
         satelliteMesh.enabled = false;
         satelliteMesh.material = satelliteMeshMaterial;
+        gameObject.transform.position = satellitePosition;
     }
 	
     void SetColor(Color color)
@@ -75,13 +75,7 @@ public class Satellite : MonoBehaviour {
 
     void Update()
     {
-        cameraDistance = Vector3.Distance(gameObject.transform.position, mainCamera.transform.position);
-        angle += speed * Time.deltaTime;
-        Vector3 v = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
-        transform.localPosition = Vector3.zero;
-        v = transform.TransformPoint(v).normalized;
-        transform.localPosition = origin.position + v * distance;
-        satellitePosition = gameObject.transform.position;        
+        cameraDistance = Vector3.Distance(gameObject.transform.position, mainCamera.transform.position);             
         screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
 
         if(cameraDistance < meshRenderDistance)
@@ -93,14 +87,15 @@ public class Satellite : MonoBehaviour {
             satelliteMesh.enabled = false;
         }
 
-        if (screenPos.z < 0)  //cale tweak - stops you from selecting satalites on the other side of the world, WorldToScreenPoint is weird like that, just how projections work
+        if (screenPos.z < 0)
             return;
 
-        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);  //cale tweak - moved this below, no point in exicuting the code if object is on other side of world
+        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
         satelliteLight.intensity = lightIntensity;
         satelliteLight.range = lightRange;
 
         distanceFromCenter = Vector2.Distance(screenPos, gameManager.screenCenter);
+
         if (distanceFromCenter < gameManager.focalRange)    //cale adv - you need to add a check in here to make sure that you are also closer than the currently focused object (is there even is one)
         {
             gameManager.currentFocus = gameObject.GetComponent<Satellite>();

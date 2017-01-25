@@ -54,4 +54,9 @@ public class StateManager : MonoBehaviour
             Debug.Log("Player is Orbiting");
         }
     }
+    
+    void HomeState()
+    {
+
+    }
 }

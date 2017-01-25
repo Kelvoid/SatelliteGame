@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour {
 
             else if (stateManager.shellUp == false && gameManager.currentFocus != null)
             {
-                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 0.85f);
+                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 5f);
             }
         }
 

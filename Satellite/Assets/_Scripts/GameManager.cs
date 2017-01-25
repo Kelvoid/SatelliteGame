@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     public float maxBlinkRate;
     public float minBlinkRate;
 
-
     public float focalRange;
     internal Vector2 screenCenter;
 
@@ -50,11 +49,16 @@ public class GameManager : MonoBehaviour
             Satellite s = Instantiate<Satellite>(satellite);
             s.name += " " + i;
             s.origin = origin;
+            s.transform.rotation = new Quaternion (Random.Range(minSatelliteDistance, maxSatelliteDistance), Random.Range(minSatelliteDistance, maxSatelliteDistance), Random.Range(minSatelliteDistance, maxSatelliteDistance), 0 );
+            s.satellitePosition = new Vector3(Random.Range(minSatelliteDistance, maxSatelliteDistance), Random.Range(minSatelliteDistance, maxSatelliteDistance), Random.Range(minSatelliteDistance, maxSatelliteDistance));
+            s.lightRange = satelliteSize;
+            s.blinkRate = Random.Range(minBlinkRate, maxBlinkRate);
+
+            /*
             s.angle = Random.value * Mathf.PI * 2;
             s.speed = Random.Range(minSatelliteSpeed, maxSatelliteSpeed);
             s.distance = Random.Range(minSatelliteDistance, maxSatelliteDistance);
-            s.lightRange = satelliteSize;
-            s.blinkRate = Random.Range(minBlinkRate, maxBlinkRate);
+            */
         }       
 	}
 

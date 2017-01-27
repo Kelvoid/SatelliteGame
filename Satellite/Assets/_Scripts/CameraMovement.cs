@@ -8,56 +8,54 @@ public class CameraMovement : MonoBehaviour {
     internal StateManager stateManager;
     public StarController stars;
 
-    public GameObject home;
-
     public float travelTime;
-    internal float offset;
+    public float percentage;
+    
     public bool isLerping = false;
     private float timeStartedLerping;
 
     internal Vector3 startPos;
     internal Vector3 targetPos;
-    internal Vector3 homePos;
-    internal float distanceFromTarget;
 
-void Awake()
+    void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
         stateManager = FindObjectOfType<StateManager>();
     }
 
-    void Start()
-    {
-        targetPos = transform.position;
-        homePos = home.transform.position;
-    }
-
     void FixedUpdate()
     {
-
-        distanceFromTarget = Vector3.Distance(gameObject.transform.position, targetPos);
-
         if (isLerping)
         {
+            stateManager.isTravelling = true;
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = timeSinceStarted / travelTime;
             transform.position = Vector3.Lerp(startPos, targetPos, percentageComplete);
-            if (distanceFromTarget <= offset)
+
+            if (percentageComplete >= percentage)
             {
+                stateManager.isTravelling = false;
                 isLerping = false;
             }
         }
     }
 
-    public void StartLerping(Vector3 target, float o)
+    public void StartLerping(Vector3 target, float offset)
     {
+        gameManager.lastDestination = gameManager.currentFocus;
+
         if(isLerping == false)
         {
             isLerping = true;
-            offset = o;
             timeStartedLerping = Time.time;
             startPos = transform.position;
+            percentage = offset;
             targetPos = target;
         }
+    }
+
+    public void MouseLook()
+    {
+
     }
 }

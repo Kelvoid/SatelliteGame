@@ -6,23 +6,17 @@ public class StateManager : MonoBehaviour
 {
     GameManager gameManager;
     Cutoff cutoff;
+
     internal bool isHome;
     internal bool shellUp;
     internal bool isTravelling;
     internal bool isOrbiting;
+    internal bool isInteracting;
 
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
     }
-
-	void Start ()
-    {
-        shellUp = true;
-        isHome = false;
-        isTravelling = false;
-        isOrbiting = false;
-    }	
 
 	void Update ()
     {
@@ -30,11 +24,11 @@ public class StateManager : MonoBehaviour
         {
             isHome = true;
         }
+
         else
         {
             isHome = false;
         }
-        stateDebug();
     }
 
     void stateDebug()
@@ -53,10 +47,5 @@ public class StateManager : MonoBehaviour
         {
             Debug.Log("Player is Orbiting");
         }
-    }
-    
-    void HomeState()
-    {
-
     }
 }

@@ -14,7 +14,6 @@ public class HomeSatelliteMarker : MonoBehaviour {
         gameManager = FindObjectOfType<GameManager>();
 	}
 	
-
 	void Update ()
     {
         targetPosition = gameManager.mainCamera.WorldToScreenPoint(target.transform.position);

@@ -28,6 +28,17 @@ public class Cutoff : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (material.GetFloat(shaderValue) <= 0.8)
+        {
+            Debug.Log("Shell Up");
+            stateManager.shellUp = true;
+        }
+        else if (material.GetFloat(shaderValue) > 0.8f)
+        {
+            Debug.Log("Shell Down");
+            stateManager.shellUp = false;
+        }
+
         if (isLerping)
         {
             float timeSinceStarted = Time.time - timeStartedLerping;
@@ -41,17 +52,6 @@ public class Cutoff : MonoBehaviour
             {
                 Debug.Log("Done Lerping");
                 isLerping = false;
-            }
-
-            if (material.GetFloat(shaderValue) <= 0.8)
-            {
-                Debug.Log("Shell Up");
-                stateManager.shellUp = true;
-            }
-            else if (material.GetFloat(shaderValue) > 0.8f)
-            {
-                Debug.Log("Shell Down");
-                stateManager.shellUp = false;
             }
         }
     }

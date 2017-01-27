@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-    public GameManager gameManager;
-    public StateManager stateManager;
-    public CameraMovement cameraMovement;
-    public Cutoff cutoff;
+    internal GameManager gameManager;
+    internal StateManager stateManager;
+    internal CameraMovement cameraMovement;
+    internal Cutoff cutoff;
+
+    internal bool lockControl;
+
+    [Range(0, 1)]
+    public float percent;
 
     Vector3 mousePosition;
 
@@ -25,29 +30,71 @@ public class InputManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(stateManager.isInteracting == true)
         {
-            if (stateManager.shellUp == true && stateManager.isHome)
-            {
-                cutoff.StartLerpingCutoff(Mathf.Clamp01(1f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
-            }
-
-            else if (stateManager.shellUp == false && gameManager.currentFocus != null)
-            {
-                cameraMovement.StartLerping(gameManager.currentFocus.transform.position, 5f);
-            }
+            CursorUnlocked();
+        }
+        else
+        {
+            CursorLocked();
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if(lockControl == false)
         {
-            if (stateManager.isHome)
+
+            if (Input.GetMouseButtonDown(0)) //Left Click
             {
-                cutoff.StartLerpingCutoff(Mathf.Clamp01(0f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
+                LeftClick();
             }
-            else
+
+            if (Input.GetMouseButtonDown(1)) //Right Click
             {
-                cameraMovement.StartLerping(cameraMovement.homePos, 1f);
+                RightClick();
             }
         }
+    }
+
+    void LeftClick()
+    {
+        if (stateManager.shellUp == true && stateManager.isHome)
+        {
+            cutoff.StartLerpingCutoff(Mathf.Clamp01(1f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
+        }
+
+        else if (stateManager.shellUp == false && gameManager.currentFocus != null && gameManager.currentFocus != gameManager.lastDestination)
+        {
+
+            cameraMovement.StartLerping(gameManager.currentFocus.transform.position, percent);
+        }
+
+        else if (gameManager.currentFocus != null && gameManager.currentFocus == gameManager.lastFocus)
+        {
+            Debug.Log("Interacting with " + gameManager.currentFocus.name);
+        }
+    }
+
+    void RightClick()
+    {
+        if (stateManager.isHome)
+        {
+            cutoff.StartLerpingCutoff(Mathf.Clamp01(0f), Mathf.Clamp01(1f), Mathf.Clamp01(1f));
+            gameManager.lastDestination = null;
+        }
+        else if (stateManager.isHome == false)
+        {
+            cameraMovement.StartLerping(new Vector3(0,0,0), 1);
+        }
+    }
+
+    void CursorUnlocked()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    void CursorLocked()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

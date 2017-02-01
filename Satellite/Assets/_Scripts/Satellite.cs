@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TrailRenderer))]
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(Light))]
 
 public class Satellite : MonoBehaviour {
@@ -18,7 +16,6 @@ public class Satellite : MonoBehaviour {
     Material satelliteMaterial;
 
     Vector3 satellitePosition;
-    Vector3 screenPos;
 
     [Header("Satellite Properties")]
     public Color satelliteColor;
@@ -33,16 +30,14 @@ public class Satellite : MonoBehaviour {
     internal float cameraDistance;
     internal float lightIntensity;
 
-    internal float distanceFromCenter;
-
     void Awake ()
     {
         mainColor = satelliteColor;
         satelliteTrail = gameObject.GetComponent<TrailRenderer>();
         satelliteLight = gameObject.GetComponent<Light>();
         gameManager = FindObjectOfType<GameManager>();
-        satelliteMeshRenderer = GetComponent<MeshRenderer>();
-        satelliteMeshFilter = GetComponent<MeshFilter>();
+        satelliteMeshRenderer = GetComponentInChildren<MeshRenderer>();
+        satelliteMeshFilter = GetComponentInChildren<MeshFilter>();
 
         gameObject.name = manufacturer + idNumber;
     }
@@ -78,8 +73,7 @@ public class Satellite : MonoBehaviour {
 
     void Update()
     {
-        cameraDistance = Vector3.Distance(gameObject.transform.position, gameManager.mainCamera.transform.position);             
-        screenPos = gameManager.mainCamera.WorldToScreenPoint(satellitePosition);
+        cameraDistance = Vector3.Distance(gameObject.transform.position, gameManager.mainCamera.transform.position);                   
 
         if(cameraDistance < gameManager.meshRenderDistance)
         {
@@ -90,20 +84,8 @@ public class Satellite : MonoBehaviour {
             CameraFar();
         }
 
-        if (screenPos.z < 0)
-            return;
-
         lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
         satelliteLight.intensity = lightIntensity;
         satelliteLight.range = lightRange;
-
-        distanceFromCenter = Vector2.Distance(screenPos, gameManager.screenCenter);
-
-
-        if (distanceFromCenter < gameManager.focalRange)    //cale adv - you need to add a check in here to make sure that you are also closer than the currently focused object (is there even is one)
-        {
-            gameManager.currentFocus = gameObject.GetComponent<Satellite>();
-            satelliteLight.range = 3;
-        }
     }
 }

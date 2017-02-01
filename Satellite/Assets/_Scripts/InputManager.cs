@@ -63,8 +63,7 @@ public class InputManager : MonoBehaviour {
 
         else if (stateManager.shellUp == false && gameManager.currentFocus != null && gameManager.currentFocus != gameManager.lastDestination)
         {
-
-            cameraMovement.StartLerping(gameManager.currentFocus.transform.position, percent);
+            gameManager.mainCamera.GetComponent<TargetedLerp>().StartLerping(gameObject, gameManager.currentFocus.transform.position, 0.5f, 1);
         }
 
         else if (gameManager.currentFocus != null && gameManager.currentFocus == gameManager.lastFocus)
@@ -82,7 +81,7 @@ public class InputManager : MonoBehaviour {
         }
         else if (stateManager.isHome == false)
         {
-            cameraMovement.StartLerping(new Vector3(0,0,0), 1);
+            gameManager.mainCamera.GetComponent<TargetedLerp>().StartLerping(gameObject, new Vector3(0, 0, 0), 0.5f, 1);
         }
     }
 

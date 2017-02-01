@@ -10,7 +10,6 @@ public class CursorController : MonoBehaviour
 
     GameObject lerpObject;
 
-    public Vector3 mousePos;
 
     Vector3 startPos;
     Vector3 targetPos;
@@ -26,21 +25,6 @@ public class CursorController : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         stateManager = FindObjectOfType<StateManager>();
     }
-	
-	void Update ()
-    {
-        mousePos = Input.mousePosition;
-
-        if (isLerping == false && gameManager.currentFocus != null)
-        {
-            LerpUI(cross, gameManager.focusScreenPos, 0.2f);
-        }
-
-        else if (isLerping == false && gameManager.currentFocus == null)
-        {
-           LerpUI(cross, gameManager.screenCenter, 0.2f);
-        }
-	}
 
     void FixedUpdate()
     {
@@ -48,6 +32,16 @@ public class CursorController : MonoBehaviour
         {
             float timeSinceStarted = Time.time - timeStartedLerping;
             float percentageComplete = timeSinceStarted / travelTime;
+
+            if (gameManager.currentFocus != null && gameManager.currentFocus.transform.position != gameManager.mainCamera.transform.position)
+            {
+                LerpUI(cross, gameManager.focusScreenPos, 0.2f);
+            }
+            else if (isLerping == false && gameManager.currentFocus == null)
+            {
+                LerpUI(cross, gameManager.screenCenter, 0.2f);
+            }
+
             lerpObject.transform.position = Vector3.Lerp(startPos, targetPos,Mathf.Pow(percentageComplete, 2));
 
             if (percentageComplete >= 1)
@@ -61,10 +55,9 @@ public class CursorController : MonoBehaviour
     {
         if (isLerping == false)
         {
-            StopAllCoroutines();
             isLerping = true;
-            startPos = element.transform.position;
             lerpObject = element;
+            startPos = element.transform.position;
             timeStartedLerping = Time.time;         
             travelTime = tTime;
             targetPos = focus;

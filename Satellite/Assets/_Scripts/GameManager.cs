@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Satellite currentFocus;
-    public Satellite lastDestination;
-    public Satellite lastFocus;
+    public GameObject currentFocus;
+    public GameObject lastDestination;
+    public GameObject lastFocus;
+
+    public GameObject home;
 
     public LinkLine linkLine;
-    public Transform origin;
     public Camera mainCamera;
-    public CameraMovement cameraMovement;
     public StateManager stateManager;
 
     public float meshRenderDistance;
@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        cameraMovement = mainCamera.GetComponent<CameraMovement>();
         stateManager = GetComponent<StateManager>();
     }
 
@@ -36,16 +35,15 @@ public class GameManager : MonoBehaviour
         lastDestination = null;
 	}
 
-	void Update ()
+	void FixedUpdate()
     {   
-        if(currentFocus != null && currentFocus.distanceFromCenter < focalRange)
+        if(currentFocus != null && currentFocus.GetComponent<FocusTarget>().distanceFromCenter < focalRange)
         {
             focusScreenPos = mainCamera.WorldToScreenPoint(currentFocus.transform.position);
         } 
            
-        if (currentFocus != null && currentFocus.distanceFromCenter > focalRange)
-        {
-            
+        if (currentFocus != null && currentFocus.GetComponent<FocusTarget>().distanceFromCenter > focalRange)
+        {         
             lastFocus = currentFocus;
             currentFocus = null;
         }

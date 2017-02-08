@@ -4,7 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
 
-public class StarController : MonoBehaviour {
+public class StarController : MonoBehaviour
+{
 
     GameManager gameManager;
     ParticleSystem stars;

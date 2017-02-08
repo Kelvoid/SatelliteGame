@@ -30,12 +30,12 @@ public class Cutoff : MonoBehaviour
     {
         if (material.GetFloat(shaderValue) <= 0.8)
         {
-            Debug.Log("Shell Up");
+            //Debug.Log("Shell Up");
             stateManager.shellUp = true;
         }
         else if (material.GetFloat(shaderValue) > 0.8f)
         {
-            Debug.Log("Shell Down");
+            //Debug.Log("Shell Down");
             stateManager.shellUp = false;
         }
 
@@ -50,7 +50,7 @@ public class Cutoff : MonoBehaviour
 
             if (percentageComplete >= percentageOfCutoff)
             {
-                Debug.Log("Done Lerping");
+                //Debug.Log("Done Lerping");
                 isLerping = false;
             }
         }
@@ -60,7 +60,7 @@ public class Cutoff : MonoBehaviour
     {
         if(isLerping == false)
         {
-            Debug.Log("Began Lerping");
+            //Debug.Log("Began Lerping");
             isLerping = true;
             percentageOfCutoff = percentage;
             cutoffTime = duration;

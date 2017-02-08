@@ -5,22 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(TrailRenderer))]
 [RequireComponent(typeof(Light))]
 
-public class Satellite : MonoBehaviour {
-
+public class Satellite : MonoBehaviour
+{
     Color mainColor;
     GameManager gameManager;
-    MeshRenderer satelliteMeshRenderer;
-    MeshFilter satelliteMeshFilter;
     TrailRenderer satelliteTrail;
     Light satelliteLight;
-    Material satelliteMaterial;
-
-    Vector3 satellitePosition;
 
     [Header("Satellite Properties")]
     public Color satelliteColor;
     public Mesh satelliteMesh;
     public Material satelliteMeshMaterial;
+
+    public GameObject MeshHolder;
 
     public float blinkRate;
     public float idNumber;
@@ -36,10 +33,8 @@ public class Satellite : MonoBehaviour {
         satelliteTrail = gameObject.GetComponent<TrailRenderer>();
         satelliteLight = gameObject.GetComponent<Light>();
         gameManager = FindObjectOfType<GameManager>();
-        satelliteMeshRenderer = GetComponentInChildren<MeshRenderer>();
-        satelliteMeshFilter = GetComponentInChildren<MeshFilter>();
 
-        gameObject.name = manufacturer + idNumber;
+        gameObject.name = manufacturer + "  " + idNumber;
     }
 
     void Start()
@@ -47,9 +42,6 @@ public class Satellite : MonoBehaviour {
         satelliteTrail.endWidth = 0;
         SetColor(mainColor);
         satelliteLight.range = lightRange;
-        satelliteMeshRenderer.material = satelliteMeshMaterial;
-        satelliteMeshFilter.mesh = satelliteMesh;
-        satellitePosition = gameObject.transform.position;
     }
 	
     void SetColor(Color color)
@@ -60,15 +52,20 @@ public class Satellite : MonoBehaviour {
     }
 
     void CameraClose()
-    {
-        satelliteMeshRenderer.enabled = true;
-        satelliteLight.enabled = false;
+    {       
+        MeshHolder.SetActive(true);
     }
 
     void CameraFar()
     {
-        satelliteMeshRenderer.enabled = false;
-        satelliteLight.enabled = true;
+        MeshHolder.SetActive(false);
+    }
+
+    void Blink()
+    {
+        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
+        satelliteLight.intensity = lightIntensity;
+        satelliteLight.range = lightRange;
     }
 
     void Update()
@@ -82,10 +79,7 @@ public class Satellite : MonoBehaviour {
         else
         {
             CameraFar();
+            Blink();
         }
-
-        lightIntensity = Mathf.PingPong(Time.time * blinkRate, 5);
-        satelliteLight.intensity = lightIntensity;
-        satelliteLight.range = lightRange;
     }
 }

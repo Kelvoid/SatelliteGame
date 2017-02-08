@@ -20,8 +20,6 @@ public class StateManager : MonoBehaviour
 
 	void Update ()
     {
-
-
         if (gameManager.mainCamera.GetComponent<TargetedLerp>().isLerping == true)
         {
             isTravelling = true;
@@ -34,6 +32,7 @@ public class StateManager : MonoBehaviour
         if (gameManager.mainCamera.transform.position == new Vector3(0, 0, 0))
         {
             isHome = true;
+            gameManager.lastDestination = null;
         }
 
         else
@@ -44,7 +43,6 @@ public class StateManager : MonoBehaviour
 
     void stateDebug()
     {
-
         if (isHome == true)
         {
             Debug.Log("Player is Home");

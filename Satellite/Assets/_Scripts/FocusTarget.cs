@@ -5,9 +5,8 @@ using UnityEngine;
 public class FocusTarget : MonoBehaviour
 {
     GameManager gameManager;
-
-    Vector3 screenPos;
-    internal float distanceFromCenter;
+    internal Vector3 screenPos;
+    internal float distanceFromCursor;
 
     void Awake ()
     {
@@ -16,15 +15,12 @@ public class FocusTarget : MonoBehaviour
 
 	void Update ()
     {
-        if (screenPos.z < 0)
-            return;
         screenPos = gameManager.mainCamera.WorldToScreenPoint(gameObject.transform.position);
-        
-        distanceFromCenter = Vector2.Distance(screenPos, gameManager.screenCenter);
+        distanceFromCursor = Vector2.Distance(screenPos, gameManager.inputManager.mousePosition);
 
-        if (distanceFromCenter < gameManager.focalRange)
+        if (gameManager.stateManager.shellUp == false && distanceFromCursor < gameManager.focalRange)
         {
-            gameManager.currentFocus = gameObject;
+            gameManager.currentFocus = gameObject.GetComponent<FocusTarget>();
         }
     }
 }

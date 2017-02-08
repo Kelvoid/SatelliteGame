@@ -4,47 +4,45 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject currentFocus;
+    public FocusTarget currentFocus;
     public GameObject lastDestination;
     public GameObject lastFocus;
 
-    public GameObject home;
-
-    public LinkLine linkLine;
     public Camera mainCamera;
-    public StateManager stateManager;
+    internal CameraMovement cameraMovement;
+    internal StateManager stateManager;
+    internal InputManager inputManager;
+    internal Cutoff cutoff;
 
     public float meshRenderDistance;
     public float focalRange;
-    internal Vector2 screenCenter;
+    internal Vector3 screenCenter;
 
-    public Vector3 targetPosition;
-    public Vector2 focusScreenPos;
+    public Vector3 homePosition;
 
     void Awake()
     {
         stateManager = GetComponent<StateManager>();
+        inputManager = GetComponent<InputManager>();
+        cameraMovement = mainCamera.GetComponent<CameraMovement>();
+        cutoff = FindObjectOfType<Cutoff>();
     }
 
     void Start ()
     {
-        stateManager.isHome = true;
-        screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         currentFocus = null;
         lastFocus = null;
         lastDestination = null;
 	}
 
-	void FixedUpdate()
-    {   
-        if(currentFocus != null && currentFocus.GetComponent<FocusTarget>().distanceFromCenter < focalRange)
+    void Update()
+    {
+        screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f,0);
+
+        Debug.Log(currentFocus);
+
+        if(currentFocus != null && currentFocus.distanceFromCursor >= focalRange)
         {
-            focusScreenPos = mainCamera.WorldToScreenPoint(currentFocus.transform.position);
-        } 
-           
-        if (currentFocus != null && currentFocus.GetComponent<FocusTarget>().distanceFromCenter > focalRange)
-        {         
-            lastFocus = currentFocus;
             currentFocus = null;
         }
     }
